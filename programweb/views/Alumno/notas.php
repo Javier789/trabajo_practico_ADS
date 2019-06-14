@@ -1,6 +1,8 @@
 <?php
 /* @var $notas */
+
 ?>
+
 <h1>Mis notas</h1>
 
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
@@ -25,6 +27,11 @@
   </tr>
 
 </table>
+    <?php
+    foreach ($notas as $item) {
+        echo var_dump($item['data']);
+    }
+    ?>
 </div>
 <script>
     var app = angular.module('myApp', []);
