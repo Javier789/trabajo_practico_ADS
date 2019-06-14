@@ -62,8 +62,8 @@ class Profesor extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getProfesoresxmaterias()
+    public function getMaterias()
     {
-        return $this->hasMany(Profesoresxmateria::className(), ['idProfesor' => 'idprofesor']);
+        return $this->hasMany(Materia::className(), ['idmateria' => 'idMateria'])->viaTable('profesoresxmateria', ['idProfesor' => 'idProfesor']);
     }
 }

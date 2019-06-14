@@ -52,8 +52,17 @@ class ProfesorController extends Controller {
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionView($id) {
+        $query = $this->findModel($id)->getMaterias();
+
+        // add conditions that should always apply here
+
+        $dataProvider = new \yii\data\ActiveDataProvider([
+            'query' => $query,
+        ]);
+
         return $this->render('view', [
                     'model' => $this->findModel($id),
+                    'materias' => $dataProvider
         ]);
     }
 
@@ -106,8 +115,21 @@ class ProfesorController extends Controller {
         return $this->redirect(['index']);
     }
 
-    public function actionPublicar() {
+    public function actionPublicar($idMateria) {
+        $from = new \app\models\PublicarNotaForm();
+        if (Yii::$app->request->post() && Yii::$app->request->post()["PublicarNotaForm"]["nota"] != "" && Yii::$app->request->post()["PublicarNotaForm"]["idAlumno"] != "") {
+            $json = '{idMateria:' . Yii::$app->request->post()["PublicarNotaForm"]["idMateria"] . ' , idAlumno: ' . Yii::$app->request->post()["PublicarNotaForm"]["idAlumno"] . ', descripcion: "' . Yii::$app->request->post()["PublicarNotaForm"]["descripcion"] . '", nota: ' . Yii::$app->request->post()["PublicarNotaForm"]["nota"] . '}';
+            $data = array('json' => $json);
+            $reponse = $this->publicarAhora($data);
+            var_dump('Se guardo con exito' . $reponse);
+        }
+        return $this->render('publicar', [
+                    'model' => $from,
+                    'idMateria' => $idMateria
+        ]);
+    }
 
+    function publicarAhora($data) {
         $config = $this->read_config();
         $chain = 'default';
         $result = "";
@@ -115,20 +137,12 @@ class ProfesorController extends Controller {
             $name = @$config[$chain]['name'];
         else
             $name = '';
-
         $this->set_multichain_chain($config[$chain]);
-
         //if ($this->multichain_has_json_text_items()) { // use native JSON and text objects in MultiChain 2.0
         //$json = \yii::$app->request->post();
-        $json = '{idMateria: 1, idAlumno: 2, descripcion: "Primer Parcial", nota: 9}';
-        var_dump($json);
-        $data = array('json' => $json);
+
         $keys = "key";
         $result = $this->multichain('publishfrom', '1X16ceuJcY8U3jn1qiJjS2UGob459omnqkRMGX', 'stream1', $keys, $data);
-
-        // }
-            var_dump($result);
-        return;
     }
 
     /**

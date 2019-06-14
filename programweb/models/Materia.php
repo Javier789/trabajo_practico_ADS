@@ -68,7 +68,7 @@ class Materia extends \yii\db\ActiveRecord
      */
     public function getAlumnos()
     {
-        return $this->hasMany(Alumno::className(), ['idalumno' => 'idAlumno'])->viaTable('alumnosxmateria', ['idMateria' => 'idmateria']);
+        return $this->hasMany(Alumno::className(), ['idalumno' => 'idAlumno'])->viaTable('alumnosxmateria', ['idMateria' => 'idMateria']);
     }
 
     /**

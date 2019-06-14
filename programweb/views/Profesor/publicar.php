@@ -3,10 +3,10 @@
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Profesor */
+/* @var $model app\models\PublicarNotaForm */
+/* @var $idMateria */
 
-$this->title = 'Create Profesor';
-$this->params['breadcrumbs'][] = ['label' => 'Profesors', 'url' => ['index']];
+$this->title = 'Publicar nota';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="profesor-create">
@@ -15,6 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $this->render('_form', [
         'model' => $model,
+        'idMateria' => $idMateria
     ]) ?>
 
 </div>
